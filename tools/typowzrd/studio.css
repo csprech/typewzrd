@@ -1,0 +1,304 @@
+/* ============================================================
+   TypoWzrd — canvas studio styles
+   Palette variables are injected on .wz-canvas by engine.js:
+     --primary-bg, --primary-text, --accent-color, --accent-soft,
+     --paper, --paper-text
+   Per-pairing font variables are set inline on each column/card:
+     --tw-display, --tw-body, --tw-track, --tw-lh, --tw-scale
+   ============================================================ */
+
+.tw-view { position: absolute; inset: 0; overflow: auto; scrollbar-width: thin; }
+.tw-view[hidden] { display: none; }
+
+/* ════════════ 1 · SPECIMEN COLUMNS ════════════ */
+.tw-view--specimens {
+  display: flex;
+  gap: 18px;
+  padding: 20px 22px 26px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: 22px;
+}
+.tw-col {
+  scroll-snap-align: start;
+  flex: 0 0 clamp(320px, 34vw, 420px);
+  display: flex;
+  flex-direction: column;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--primary-bg);
+  color: var(--primary-text);
+  border: 1px solid rgba(127, 127, 127, .28);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, .38);
+  min-height: 0;
+}
+
+/* meta-header bar: Typeface | Name | Category | Creator | Year */
+.tw-col-meta {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 1px solid color-mix(in srgb, var(--primary-text) 22%, transparent);
+  background: color-mix(in srgb, var(--primary-text) 7%, var(--primary-bg));
+  font-size: 10px;
+  letter-spacing: .05em;
+}
+.tw-col-meta > div {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 7px 9px;
+  border-right: 1px solid color-mix(in srgb, var(--primary-text) 16%, transparent);
+}
+.tw-col-meta > div:last-child { border-right: 0; flex: 0 0 auto; }
+.tw-col-meta dt {
+  margin: 0; font-size: 8px; text-transform: uppercase; letter-spacing: .14em;
+  opacity: .55; font-family: var(--wz-font-mono);
+}
+.tw-col-meta dd {
+  margin: 1px 0 0; font-weight: 700; font-size: 10.5px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.tw-col-meta .tw-meta-typeface dd { cursor: pointer; text-decoration: underline dotted; text-underline-offset: 2px; }
+.tw-col-meta .tw-meta-typeface dd:hover { color: var(--accent-color); }
+
+.tw-col-body { flex: 1; overflow-y: auto; padding: 18px 18px 20px; scrollbar-width: thin; }
+
+/* big editable display phrase */
+.tw-display {
+  font-family: var(--tw-display);
+  font-size: calc(30px * var(--tw-scale, 1.25));
+  line-height: 1.02;
+  letter-spacing: var(--tw-track, 0em);
+  font-weight: var(--tw-display-weight, 800);
+  margin: 6px 0 14px;
+  outline: none;
+  overflow-wrap: break-word;
+  caret-color: var(--accent-color);
+}
+.tw-display:focus-visible { box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-color) 55%, transparent); border-radius: 4px; }
+.tw-display::selection, .tw-col ::selection { background: var(--accent-color); color: var(--primary-bg); }
+
+/* weight / style checklist */
+.tw-weights { display: flex; flex-wrap: wrap; gap: 5px; margin: 0 0 16px; }
+.tw-weight-chip {
+  border: 1px solid color-mix(in srgb, var(--primary-text) 30%, transparent);
+  background: transparent; color: inherit;
+  font-family: var(--tw-display);
+  border-radius: 999px; padding: 3px 10px; font-size: 11px;
+  opacity: .62; transition: all .12s;
+}
+.tw-weight-chip:hover { opacity: 1; }
+.tw-weight-chip.is-on {
+  opacity: 1;
+  background: var(--accent-color); color: var(--primary-bg);
+  border-color: var(--accent-color);
+}
+.tw-weight-chip.is-italic { font-style: italic; }
+
+.tw-sub {
+  font-family: var(--tw-display);
+  font-weight: 600;
+  font-size: calc(14px * var(--tw-scale, 1.25));
+  letter-spacing: var(--tw-track, 0em);
+  line-height: 1.2;
+  margin: 0 0 4px;
+}
+.tw-kicker {
+  font-family: var(--tw-body);
+  font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
+  opacity: .6; margin: 0 0 10px;
+}
+.tw-copy {
+  font-family: var(--tw-body);
+  font-size: 13.5px;
+  line-height: var(--tw-lh, 1.4);
+  letter-spacing: calc(var(--tw-track, 0em) * .4);
+  opacity: .88;
+  margin: 0 0 18px;
+  outline: none;
+}
+.tw-cta {
+  display: inline-block;
+  font-family: var(--tw-display);
+  font-weight: 700; font-size: 13px;
+  letter-spacing: calc(var(--tw-track, 0em) + .02em);
+  background: var(--accent-color); color: var(--primary-bg);
+  border: 0; border-radius: 999px;
+  padding: 9px 20px;
+  transition: transform .1s, filter .15s;
+}
+.tw-cta:hover { filter: brightness(1.08); transform: translateY(-1px); }
+
+.tw-col-foot {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 12px;
+  border-top: 1px solid color-mix(in srgb, var(--primary-text) 16%, transparent);
+  font-size: 10px; opacity: .85;
+}
+.tw-col-foot .tw-stackline {
+  font-family: var(--wz-font-mono); font-size: 9px; opacity: .6;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 70%;
+}
+.tw-save-btn {
+  border: 1px solid color-mix(in srgb, var(--primary-text) 35%, transparent);
+  background: transparent; color: inherit;
+  border-radius: 999px; padding: 3px 10px; font-size: 10.5px; font-weight: 700;
+}
+.tw-save-btn:hover, .tw-save-btn.is-saved { background: var(--accent-color); color: var(--primary-bg); border-color: var(--accent-color); }
+
+/* ════════════ 2 · MOODBOARD (VISUAL DIRECTIONS) ════════════ */
+.tw-view--moodboard { padding: 22px; }
+.tw-board {
+  columns: 3 300px;
+  column-gap: 16px;
+  max-width: 1220px;
+  margin: 0 auto;
+}
+.tw-card {
+  break-inside: avoid;
+  margin: 0 0 16px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--paper);
+  color: var(--paper-text);
+  border: 1px solid rgba(127, 127, 127, .25);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, .32);
+}
+.tw-card-label {
+  font-family: var(--wz-font-mono);
+  font-size: 8.5px; letter-spacing: .18em; text-transform: uppercase;
+  opacity: .5; padding: 10px 16px 0;
+}
+
+/* brand header card */
+.tw-card--brand { background: var(--primary-bg); color: var(--primary-text); text-align: center; }
+.tw-card--brand .tw-brand-name {
+  font-family: var(--tw-display);
+  font-weight: var(--tw-display-weight, 800);
+  font-size: clamp(34px, 4.2vw, 52px);
+  line-height: .92;
+  letter-spacing: calc(var(--tw-track, 0em) - .015em);
+  margin: 10px 14px 4px;
+  outline: none;
+}
+.tw-card--brand .tw-brand-tag {
+  font-family: var(--tw-body);
+  font-size: 11px; letter-spacing: .3em; text-transform: uppercase;
+  opacity: .65; margin: 0 0 18px;
+}
+.tw-card--brand .tw-brand-rule { height: 4px; background: var(--accent-color); }
+
+/* e-commerce card */
+.tw-card--shop .tw-shop-visual {
+  height: 118px;
+  background:
+    radial-gradient(90px 90px at 72% 40%, var(--accent-color) 0 38%, transparent 39%),
+    linear-gradient(160deg, color-mix(in srgb, var(--accent-color) 30%, var(--paper)), var(--paper) 70%);
+  border-bottom: 1px solid rgba(127,127,127,.2);
+}
+.tw-card--shop .tw-shop-body { padding: 14px 16px 16px; }
+.tw-shop-row { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.tw-shop-name { font-family: var(--tw-display); font-weight: 700; font-size: 17px; letter-spacing: var(--tw-track, 0em); margin: 0; }
+.tw-shop-price { font-family: var(--tw-display); font-weight: 800; font-size: 19px; color: var(--accent-color); white-space: nowrap; }
+.tw-shop-desc { font-family: var(--tw-body); font-size: 12px; line-height: var(--tw-lh, 1.4); opacity: .75; margin: 6px 0 14px; }
+.tw-shop-btn {
+  width: 100%;
+  font-family: var(--tw-display); font-weight: 700; font-size: 12.5px;
+  letter-spacing: .04em;
+  color: var(--paper); background: var(--paper-text);
+  border: 0; border-radius: 10px; padding: 10px 12px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.tw-shop-btn em { font-style: normal; opacity: .65; font-family: var(--tw-body); font-weight: 400; font-size: 11px; }
+.tw-shop-btn:hover { background: var(--accent-color); color: var(--primary-bg); }
+
+/* data viz card */
+.tw-card--data .tw-data-body { padding: 12px 16px 16px; }
+.tw-data-metric { font-family: var(--tw-display); font-weight: var(--tw-display-weight, 800); font-size: 34px; line-height: 1; letter-spacing: var(--tw-track, 0em); }
+.tw-data-metric small { font-size: 13px; font-weight: 600; opacity: .6; margin-left: 4px; font-family: var(--tw-body); }
+.tw-data-sub { font-family: var(--tw-body); font-size: 11.5px; opacity: .7; margin: 3px 0 14px; }
+.tw-bar-row { margin-bottom: 10px; }
+.tw-bar-head { display: flex; justify-content: space-between; font-family: var(--tw-body); font-size: 10.5px; margin-bottom: 4px; }
+.tw-bar-head b { font-family: var(--wz-font-mono); font-weight: 600; }
+.tw-bar { height: 7px; border-radius: 4px; background: color-mix(in srgb, var(--paper-text) 14%, transparent); overflow: hidden; }
+.tw-bar i { display: block; height: 100%; border-radius: 4px; background: var(--accent-color); transition: width .5s cubic-bezier(.2,.8,.2,1); }
+.tw-bar-row:nth-child(odd) .tw-bar i { background: color-mix(in srgb, var(--accent-color) 65%, var(--paper-text)); }
+
+/* promo split card */
+.tw-card--promo { display: grid; grid-template-columns: 1.15fr .85fr; background: var(--primary-bg); color: var(--primary-text); }
+.tw-card--promo .tw-card-label { grid-column: 1 / -1; }
+.tw-promo-copy { padding: 8px 16px 18px; }
+.tw-promo-head { font-family: var(--tw-display); font-weight: var(--tw-display-weight, 800); font-size: 21px; line-height: 1.05; letter-spacing: var(--tw-track, 0em); margin: 0 0 8px; }
+.tw-promo-body { font-family: var(--tw-body); font-size: 11.5px; line-height: var(--tw-lh, 1.4); opacity: .8; margin: 0 0 12px; }
+.tw-promo-link { font-family: var(--tw-display); font-size: 11.5px; font-weight: 700; color: var(--accent-color); letter-spacing: .06em; }
+.tw-promo-art {
+  margin: 0 14px 14px 0; border-radius: 10px; min-height: 130px;
+  background:
+    linear-gradient(35deg, transparent 55%, color-mix(in srgb, var(--primary-bg) 55%, transparent) 55.5%),
+    radial-gradient(60px 60px at 30% 30%, color-mix(in srgb, var(--primary-text) 85%, transparent) 0 32%, transparent 33%),
+    var(--accent-color);
+}
+
+/* editorial magazine card */
+.tw-card--editorial { position: relative; min-height: 240px; display: flex; flex-direction: column; justify-content: flex-end; }
+.tw-card--editorial .tw-edit-bg {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(180deg, transparent 30%, rgba(0,0,0,.55) 88%),
+    conic-gradient(from 210deg at 68% 32%, color-mix(in srgb, var(--accent-color) 80%, #000) 0 90deg, var(--accent-color) 90deg 200deg, color-mix(in srgb, var(--accent-color) 45%, var(--paper-text)) 200deg 360deg);
+}
+.tw-card--editorial .tw-card-label { position: relative; color: #fff; opacity: .75; }
+.tw-edit-text { position: relative; padding: 30px 18px 18px; color: #fff; }
+.tw-edit-kicker { font-family: var(--tw-body); font-size: 9.5px; letter-spacing: .3em; text-transform: uppercase; opacity: .85; margin: 0 0 6px; }
+.tw-edit-head { font-family: var(--tw-display); font-weight: var(--tw-display-weight, 800); font-size: 26px; line-height: 1; letter-spacing: var(--tw-track, 0em); margin: 0 0 8px; text-wrap: balance; }
+.tw-edit-dek { font-family: var(--tw-body); font-size: 11.5px; line-height: var(--tw-lh, 1.4); opacity: .85; margin: 0; }
+
+/* ════════════ 3 · MOCKUP SCENES ════════════ */
+.tw-view--mockups { padding: 24px; }
+.tw-scenes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+.tw-scene {
+  border-radius: 14px;
+  border: 1px solid var(--wz-line);
+  background: var(--wz-panel);
+  overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.tw-scene-head {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 12px; flex-wrap: wrap;
+  padding: 9px 13px;
+  font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--wz-text-dim);
+  border-bottom: 1px solid var(--wz-line-soft);
+  font-family: var(--wz-font-mono);
+}
+.tw-scene-body { padding: 10px; display: grid; place-items: center; }
+.tw-scene svg { display: block; width: 100%; height: auto; max-height: 430px; }
+
+/* ════════════ shared / responsive ════════════ */
+@media (max-width: 860px) {
+  .tw-view--specimens { scroll-padding-left: 14px; padding: 14px; }
+  .tw-col { flex-basis: 84vw; }
+  .tw-board { columns: 2 240px; }
+}
+@media (max-width: 560px) {
+  .tw-board { columns: 1; }
+  .tw-card--promo { grid-template-columns: 1fr; }
+  .tw-promo-art { margin: 0 14px 14px; }
+}
+
+/* export flash */
+.wz-canvas.is-exporting::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: #fff; opacity: .0;
+  animation: twFlash .35s ease-out;
+  pointer-events: none;
+}
+@keyframes twFlash { 15% { opacity: .28; } 100% { opacity: 0; } }
