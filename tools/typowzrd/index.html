@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en" data-wz-tool="typowzrd">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>TypoWzrd — Typographic Discovery &amp; Pairing Studio</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23141420'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-size='38' fill='%23a88bfa' text-anchor='middle'%3ETy%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="wz-shell.css">
+<link rel="stylesheet" href="studio.css">
+</head>
+<body>
+<!-- ================= Standard WZRD index wrapper ================= -->
+<div class="wz-app" id="wzApp">
+
+  <!-- ─── Topbar ─── -->
+  <header class="wz-topbar">
+    <div class="wz-brand">
+      <span class="wz-brand-mark" aria-hidden="true">Ty</span>
+      <span class="wz-brand-name">TypoWzrd</span>
+      <span class="wz-brand-sub">type discovery · pairing · mockups</span>
+    </div>
+    <div class="wz-topbar-mid">
+      <span class="wz-mode-indicator" id="modeIndicator">Specimen Columns</span>
+    </div>
+    <div class="wz-topbar-actions">
+      <span class="wz-sync-pill" id="syncPill" title="WZRD cloud user-state">
+        <span class="wz-sync-dot" aria-hidden="true"></span><span id="syncLabel">Synced</span>
+      </span>
+      <button class="wz-btn wz-btn--ghost" id="exportSvgBtn" type="button">Export SVG</button>
+      <button class="wz-btn wz-btn--primary" id="exportPngBtn" type="button">Export PNG</button>
+    </div>
+  </header>
+
+  <div class="wz-workspace">
+
+    <!-- ─── Left sidebar: curation & workspace ─── -->
+    <aside class="wz-side wz-side--left" aria-label="Collections and workspace">
+      <div class="wz-side-scroll">
+
+        <div class="wz-section" id="collectionsSection">
+          <div class="wz-section-head">
+            <h2 class="wz-section-title">Collections</h2>
+            <span class="wz-count-badge" id="collectionsTotal">0</span>
+          </div>
+          <div class="wz-collection-list" id="collectionList" role="list"></div>
+          <button class="wz-btn wz-btn--dashed wz-btn--block" id="newCollectionBtn" type="button">+ New Collection</button>
+        </div>
+
+        <div class="wz-section">
+          <div class="wz-section-head">
+            <h2 class="wz-section-title">Recent Tabs</h2>
+            <button class="wz-mini-link" id="clearRecentsBtn" type="button">clear</button>
+          </div>
+          <p class="wz-side-hint">Typefaces you recently opened. Tick when reviewed.</p>
+          <ul class="wz-recent-list" id="recentList"></ul>
+        </div>
+
+        <div class="wz-section wz-section--footer">
+          <p class="wz-side-hint">State autosaves to your WZRD cloud profile via <code>platform/sdk.js</code>.</p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ─── Center canvas workspace ─── -->
+    <main class="wz-canvas-frame" aria-label="Preview canvas">
+      <div class="wz-canvas" id="canvas" data-mode="specimens">
+        <!-- mode roots; renderers populate these -->
+        <section class="tw-view tw-view--specimens" id="viewSpecimens" aria-label="Specimen columns"></section>
+        <section class="tw-view tw-view--moodboard" id="viewMoodboard" hidden aria-label="Visual directions moodboard"></section>
+        <section class="tw-view tw-view--mockups" id="viewMockups" hidden aria-label="Fonts in use mockups"></section>
+      </div>
+      <div class="wz-canvas-statusbar">
+        <span id="matchSummary">–</span>
+        <span class="wz-statusbar-right" id="fontSourceNote">Native system stacks · zero network</span>
+      </div>
+    </main>
+
+    <!-- ─── Right sidebar: controls ─── -->
+    <aside class="wz-side wz-side--right" aria-label="Styling controls">
+      <div class="wz-side-scroll" id="controlsRoot">
+
+        <details class="wz-section wz-collapse" open id="secFramework">
+          <summary class="wz-collapse-head"><span>Aesthetic Framework</span><span class="wz-caret" aria-hidden="true"></span></summary>
+          <div class="wz-collapse-body">
+            <div class="wz-field">
+              <span class="wz-label">Font Source</span>
+              <div class="wz-seg" role="radiogroup" aria-label="Font source" id="sourceToggle">
+                <button class="wz-seg-btn is-active" type="button" data-source="system" role="radio" aria-checked="true">Native System Stacks</button>
+                <button class="wz-seg-btn" type="button" data-source="web" role="radio" aria-checked="false">Web Fonts <small>(Google)</small></button>
+              </div>
+            </div>
+            <div class="wz-field">
+              <span class="wz-label">Visual Classification</span>
+              <div class="wz-class-grid" id="classGrid"></div>
+            </div>
+          </div>
+        </details>
+
+        <details class="wz-section wz-collapse" open id="secMood">
+          <summary class="wz-collapse-head"><span>Mood &amp; Personality</span><span class="wz-caret" aria-hidden="true"></span></summary>
+          <div class="wz-collapse-body">
+            <div class="wz-field">
+              <span class="wz-label">Thematic Tags</span>
+              <div class="wz-tag-grid" id="tagGrid"></div>
+            </div>
+            <div class="wz-field" id="personalitySliders"></div>
+          </div>
+        </details>
+
+        <details class="wz-section wz-collapse" open id="secType">
+          <summary class="wz-collapse-head"><span>Typography Parameters</span><span class="wz-caret" aria-hidden="true"></span></summary>
+          <div class="wz-collapse-body" id="typoParams">
+            <div class="wz-field">
+              <label class="wz-label" for="previewTextInput">Custom Preview Text</label>
+              <input class="wz-input" id="previewTextInput" type="text" maxlength="80"
+                     placeholder="Type to restyle every preview…" autocomplete="off" spellcheck="false">
+            </div>
+          </div>
+        </details>
+
+        <details class="wz-section wz-collapse" open id="secPalette">
+          <summary class="wz-collapse-head"><span>Color &amp; Theme Palette</span><span class="wz-caret" aria-hidden="true"></span></summary>
+          <div class="wz-collapse-body">
+            <div class="wz-palette-grid" id="paletteGrid" role="listbox" aria-label="Palette presets"></div>
+            <div class="wz-contrast" id="contrastBox">
+              <span class="wz-contrast-swatches" id="contrastSwatches" aria-hidden="true"></span>
+              <span class="wz-contrast-ratio" id="contrastRatio">–</span>
+              <span class="wz-contrast-verdict" id="contrastVerdict"></span>
+            </div>
+          </div>
+        </details>
+
+        <details class="wz-section wz-collapse" open id="secView">
+          <summary class="wz-collapse-head"><span>View Mode</span><span class="wz-caret" aria-hidden="true"></span></summary>
+          <div class="wz-collapse-body">
+            <div class="wz-viewmode-grid" id="viewModeGrid" role="radiogroup" aria-label="Canvas layout"></div>
+          </div>
+        </details>
+
+      </div>
+    </aside>
+
+  </div>
+</div>
+
+<!-- SDK first, then tool modules (plain scripts, load order matters) -->
+<script src="../../platform/sdk.js"></script>
+<script src="data.js"></script>
+<script src="engine.js"></script>
+<script src="mockups.js"></script>
+<script src="views.js"></script>
+<script src="controls.js"></script>
+<script src="export.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
